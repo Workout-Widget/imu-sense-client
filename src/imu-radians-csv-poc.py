@@ -35,9 +35,8 @@ class SenseHatCSV:
     ACCEL = "ACCEL"
     GYRO = "GYRO"
 
-    def __init__(self, config):
+    def __init__(self):
         self.sense = SenseHat()
-        self.config = config
 
 
     def get_record_from_radians(self):
