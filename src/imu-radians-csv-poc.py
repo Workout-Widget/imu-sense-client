@@ -97,4 +97,4 @@ if __name__ == "__main__":
             y = sense_hat_csv.get_record_from_radians().get('yPitch')
             z = sense_hat_csv.get_record_from_radians().get('zYaw')
 
-            file.write(f"{x},{y},{z},{config.get('experimentId')},{config.get('exercise')},{config.get('isRaw')},{config.get('deviceId')},{config.get('subject')},{config.get('timestamp')}\n")
+            file.write(f"{x},{y},{z},{config.get('experimentId')},{config.get('exercise')},{config.get('isRaw')},{config.get('deviceId')},{config.get('subject')},{round(time.time() * 1000)}\n")
