@@ -39,10 +39,10 @@ class SenseHatCSV:
         self.sense.set_imu_config(True, True, True)
 
     def tx_on(self):
-        sense.set_pixels(self.led_tx_on)
+        self.sense.set_pixels(self.led_tx_on)
 
     def tx_off(self):
-        sense.set_pixels(self.led_tx_off)
+        self.sense.set_pixels(self.led_tx_off)
 
     def get_record_from_radians(self):
         imu_input = self.sense.get_orientation_radians()
