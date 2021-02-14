@@ -96,8 +96,6 @@ if __name__ == "__main__":
             x = sense_hat_csv.get_record_from_radians().get('xRoll')
             y = sense_hat_csv.get_record_from_radians().get('yPitch')
             z = sense_hat_csv.get_record_from_radians().get('zYaw')
-            exp_id =
-            exercise = config.get('exercise')
 
             file.write(f"{x},{y},{z},{config.get('experimentId')},{config.get('exercise')},{config.get('isRaw')},\
             {config.get('deviceId')},{config.get('subject')},{config.get('timestamp')}")
