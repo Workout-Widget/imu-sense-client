@@ -90,7 +90,7 @@ if __name__ == "__main__":
         'deviceId': inputDeviceId
     }
 
-    filename = config['experimentId'] + "-" + config.get('exercise') + "-" + config['timestamp'] + ".csv"
+    filename = config['experimentId'] + "-" + config.get('exercise') + "-" + str(config['timestamp']) + ".csv"
     with open(filename, 'a') as file:
         while True:
             x = sense_hat_csv.get_record_from_radians().get('xRoll')
