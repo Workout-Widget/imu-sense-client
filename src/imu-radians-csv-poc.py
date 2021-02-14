@@ -4,7 +4,6 @@ import json
 
 
 class SenseHatCSV:
-
     ETX = [255, 0, 0]
     OFF = [0, 0, 0]  # off
     BTX = [0, 255, 0]  # on
@@ -38,7 +37,6 @@ class SenseHatCSV:
     def __init__(self):
         self.sense = SenseHat()
 
-
     def get_record_from_radians(self):
         imu_input = self.sense.get_orientation_radians()
         data = {
@@ -58,7 +56,6 @@ if __name__ == "__main__":
     print("Please configure your test by answering the following questions...")
 
     experiment_id = input("String-based experiment ID: ")
-
 
     sensor_type = ""
     usr_choice = ""
@@ -93,14 +90,14 @@ if __name__ == "__main__":
         'deviceId': inputDeviceId
     }
 
-    filename = config['experimentId'] + "-" + config['timestamp'] + ".csv"
+    filename = config['experimentId'] + "-" + config.get('exercise') + "-" + config['timestamp'] + ".csv"
     with open(filename, 'a') as file:
         while True:
             x = sense_hat_csv.get_record_from_radians().get('xRoll')
             y = sense_hat_csv.get_record_from_radians().get('yPitch')
-            z =  sense_hat_csv.get_record_from_radians().get('zYaw')
-            exp_id = sense_hat_csv.get_record_from_radians().get('experimentId')
-            exercise = sense_hat_csv.get_record_from_radians().get('exercise')
+            z = sense_hat_csv.get_record_from_radians().get('zYaw')
+            exp_id =
+            exercise = config.get('exercise')
 
-            file.write(f"{x},{y},{z}")
-
+            file.write(f"{x},{y},{z},{config.get('experimentId')},{config.get('exercise')},{config.get('isRaw')},\
+            {config.get('deviceId')},{config.get('subject')},{config.get('timestamp')}")
