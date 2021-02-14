@@ -61,7 +61,7 @@ if __name__ == "__main__":
     usr_choice = ""
 
     while True:
-        usr_choice = input("What sensor type are you using?\n\t\t1) RADIANS\n\t\t2) ACCEL\n\t\t3) GYRO\n")
+        usr_choice = input("What sensor type are you using?\n\t1) RADIANS\n\t2) ACCEL\n\t3) GYRO\n")
         if usr_choice == "1":
             sensor_type = sense_hat_csv.RADIANS
             break
@@ -97,5 +97,4 @@ if __name__ == "__main__":
             y = sense_hat_csv.get_record_from_radians().get('yPitch')
             z = sense_hat_csv.get_record_from_radians().get('zYaw')
 
-            file.write(f"{x},{y},{z},{config.get('experimentId')},{config.get('exercise')},{config.get('isRaw')},\
-            {config.get('deviceId')},{config.get('subject')},{config.get('timestamp')}\n")
+            file.write(f"{x},{y},{z},{config.get('experimentId')},{config.get('exercise')},{config.get('isRaw')},{config.get('deviceId')},{config.get('subject')},{config.get('timestamp')}\n")
