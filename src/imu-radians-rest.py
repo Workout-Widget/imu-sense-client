@@ -3,7 +3,7 @@ import requests
 from sense_hat import SenseHat
 import time
 
-class SenseHatCSV:
+class SenseHatREST:
 
     ETX = [255, 0, 0]
     OFF = [0, 0, 0]  # off
@@ -35,29 +35,81 @@ class SenseHatCSV:
     ACCEL = "ACCEL"
     GYRO = "GYRO"
 
-    def __init__(self, config):
+    def __init__(self):
         self.sense = SenseHat()
-        self.config = config
+        self.sense.set_imu_config(True, True, True)
 
 
-    def make_post_call(self):
-        imu_data = self.sense.get_orientation_radians()
+    def get_record_from_radians(self):
+        imu_input = self.sense.get_orientation_radians()
         data = {
-            'xRoll': self.imu_input['pitch'],
-            'yPitch': self.imu_input['roll'],
-            'zYaw': self.imu_input['yaw'],
-            'experimentId': self.experiment_id,
-            'type': self.sensor_type,
-            'sensorLocation': sensor_location,
-            'subject': subject,
-            'isRaw': False,
+            'xRoll': imu_input['pitch'],
+            'yPitch': imu_input['roll'],
+            'zYaw': imu_input['yaw'],
             'timestamp': round(time.time() * 1000),
-            'deviceId': inputDeviceId
         }
+        return data
+
+    def make_post_call(self, data, config):
+        
+        data['experimentId'] = config.get('experiment_id'),
+        data['type'] = config.get('sensor_type'),
+        data['sensorLocation'] = config.get('sensor_location'),
+        data['subject'] = config.get('subject'),
+        data['exercise'] = config.get('exercise'),
+        data['isRaw'] = config.get('False'),
+        data['timestamp'] = round(time.time() * 1000),
+        data['deviceId'] = config.get('inputDeviceId')
+
         sense.set_pixels(led_tx_on)
-        requests.post(rest_endpoint, json=data)
+        requests.post(config.get('restEndpoint'), json=data)
         sense.set_pixels(led_tx_off)
 
-while (True):
-    imu_data = sense.get_orientation_radians()
-    make_post_call(imu_data)
+
+if __name__ == "__main__":
+
+    sense_hat_rest = SenseHatREST()
+
+    print("Welcome to the Workout Widget REST SenseHAT Client!")
+    print("Please configure your test by answering the following questions...")
+
+    rest_endpoint = input("REST API endpoint: (ex: http://127.0.0.1:8080/motion/): ")
+    experiment_id = input("String-based experiment ID: ")
+
+    sensor_type = ""
+    usr_choice = ""
+
+    while True:
+        usr_choice = input("What sensor type are you using?\n\t1) RADIANS\n\t2) ACCEL\n\t3) GYRO\n")
+        if usr_choice == "1":
+            sensor_type = sense_hat_rest.RADIANS
+            break
+        elif usr_choice == "2":
+            sensor_type = sense_hat_rest.ACCEL
+            break
+        elif usr_choice == "3":
+            sensor_type = sense_hat_rest.GYRO
+            break
+        else:
+            print("Invalid choice, please try again...")
+
+    inputDeviceId = input("Please enter a device ID: ")
+    sensor_location = input("Where is the IMU located? ")
+    exercise = input("Please enter the exercise being recorded: ")
+    subject = input("Who is wearing the IMU? ")
+
+    config = {
+        'restEndpoint': rest_endpoint,
+        'experimentId': experiment_id,
+        'type': sensor_type,
+        'sensorLocation': sensor_location,
+        'subject': subject,
+        'exercise': exercise,
+        'isRaw': False,
+        'timestamp': round(time.time() * 1000),
+        'deviceId': inputDeviceId
+    }
+
+    while True:
+        data = sense_hat_rest.get_record_from_radians()
+        sense_hat_rest.make_post_call(data, config)

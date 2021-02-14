@@ -36,6 +36,7 @@ class SenseHatCSV:
 
     def __init__(self):
         self.sense = SenseHat()
+        self.sense.set_imu_config(True, True, True)
 
     def get_record_from_radians(self):
         imu_input = self.sense.get_orientation_radians()
@@ -96,5 +97,6 @@ if __name__ == "__main__":
             x = sense_hat_csv.get_record_from_radians().get('xRoll')
             y = sense_hat_csv.get_record_from_radians().get('yPitch')
             z = sense_hat_csv.get_record_from_radians().get('zYaw')
-
+            sense_hat_csv.sense.set_pixels(led_tx_on)
             file.write(f"{x},{y},{z},{config.get('experimentId')},{config.get('exercise')},{config.get('isRaw')},{config.get('deviceId')},{config.get('subject')},{round(time.time() * 1000)}\n")
+            sense_hat_csv.sense.set_pixels(led_tx_off)
